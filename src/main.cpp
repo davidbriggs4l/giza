@@ -1,7 +1,43 @@
+#include <string>
 #include <iostream>
+#include <linenoise.hpp>
+
+std::string READ(std::string input)
+{
+    return input;
+}
+std::string EVAl(std::string input)
+
+{
+    return input;
+}
+std::string PRINT(std::string input)
+{
+    return input;
+}
+std::string repl(std::string input)
+{
+    auto ast = READ(input);
+    auto result = EVAl(ast);
+    return PRINT(result);
+}
 
 int main()
 {
-    std::cout << "Hello World" << std::endl;
+    auto history_path = "history.txt";
+    linenoise::LoadHistory(history_path);
+
+    std::string input;
+    for (;;)
+    {
+        auto quit = linenoise::Readline("user >", input);
+        if (quit)
+        {
+            break;
+        }
+        std::cout << repl(input) << std::endl;
+        linenoise::AddHistory(input.c_str());
+    }
+    linenoise::SaveHistory(history_path);
     return 0;
 }
